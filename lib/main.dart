@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../group.dart';
+import 'component/group.dart';
 
 
 void main() {
