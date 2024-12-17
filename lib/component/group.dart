@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dutch_pay/component/list_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -76,38 +77,58 @@ class DutchGroup extends StatefulWidget{
                     ),
                   ),
                 ),
-                Expanded(child: ListView.builder(
+                Expanded(
+                  child: ListView.builder(
                     itemCount: group_name.length,
                     itemBuilder: (context, index) {
                       final formattedDate = DateFormat('yyyy-MM-dd').format(create_date[index]);
-                      return Container(
-                        width: 400,
-                        height: 80,
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border(
-                            left: BorderSide(color: Color(0xff22844c),
-                                width: 3),
-                            right: BorderSide(color: Color(0xff22844c),
-                                width: 3),
-                            top: BorderSide(color: Color(0xff22844c), width: 3),
-                            bottom: BorderSide(color: Color(0xff22844c),
-                                width: 3),
+
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to ListDetail page with the selected group name and creation date
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ListDetailPage(
+                                groupid: group_id[index],
+                                groupName: group_name[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 400,
+                          height: 80,
+                          margin: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border(
+                              left: BorderSide(color: Color(0xff22844c), width: 3),
+                              right: BorderSide(color: Color(0xff22844c), width: 3),
+                              top: BorderSide(color: Color(0xff22844c), width: 3),
+                              bottom: BorderSide(color: Color(0xff22844c), width: 3),
+                            ),
+                          ),
+                          child: ListView(
+                            children: [
+                              Text(
+                                group_name[index],
+                                style: TextStyle(color: Color(0xff22844c), fontFamily: 'Jua', fontSize: 25),
+                                textAlign: TextAlign.start,
+                              ),
+                              Text(
+                                formattedDate,
+                                style: TextStyle(fontFamily: 'Jua', fontSize: 15),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
                           ),
                         ),
-                        child: ListView(
-                          children: [
-                            Text(group_name[index],
-                              style: TextStyle(color: Color(0xff22844c),
-                                fontFamily: 'Jua', fontSize: 25,),
-                              textAlign: TextAlign.start,),
-                            Text(formattedDate, style: TextStyle(fontFamily: 'Jua',fontSize: 15),textAlign: TextAlign.end,),
-                          ],
-                        ),
                       );
-                    }))
+                    },
+                  ),
+                )
               ],
             ),
           )
