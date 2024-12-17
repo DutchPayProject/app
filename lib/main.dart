@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'component/group.dart';
+
 
 void main() {
-  runApp(const DutchMain());
+  runApp(const MaterialApp(
+    home: DutchMain(),
+      debugShowCheckedModeBanner: false,
+  ));
 }
-
 class DutchMain extends StatelessWidget {
   const DutchMain({super.key});
 
@@ -13,6 +17,7 @@ class DutchMain extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: GestureDetector(
         onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => DutchGroup(),));
         },
         child: Scaffold(
           body: Center(
@@ -22,7 +27,7 @@ class DutchMain extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Image.asset('Doller.png', height: 300, width: 200,),
+                  Image.asset('Doller.png', height: 200, width: 100,),
                   Text('Dutch Pay', style: TextStyle(color: Color(0xff22844c), fontSize: 40,fontFamily:'Jua'),),
                   Text('# 더치페이의 선택 1등 앱', style: TextStyle(color: Color(0xff22844c), fontSize: 30,fontFamily:'Jua'),),
                   Text('화면을 터치해주세요', style: TextStyle(color: Color(0xff22844c), fontSize: 30, fontFamily:'Jua'),)
@@ -35,6 +40,7 @@ class DutchMain extends StatelessWidget {
     );
   }
 }
+
 
 
 
