@@ -85,7 +85,6 @@ class DutchGroup extends StatefulWidget{
 
                       return GestureDetector(
                         onTap: () {
-                          // Navigate to ListDetail page with the selected group name and creation date
                           Navigator.push(
                             context,
                             MaterialPageRoute(
