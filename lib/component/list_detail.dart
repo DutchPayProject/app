@@ -17,6 +17,7 @@ class ListDetailPage extends StatefulWidget {
 
 class _ListDetailPageState extends State<ListDetailPage> {
   List<Map<String, dynamic>> groupList = [];
+  List<Map<String, dynamic>> listList = [];
 
   // API call to fetch group details
   Future<void> grouppostList() async {
@@ -46,10 +47,46 @@ class _ListDetailPageState extends State<ListDetailPage> {
     }
   }
 
+  Future<void> memberList() async {
+    final url = Uri.parse('http://localhost:8082/member/listget');
+
+    try {
+
+      if (groupList.isNotEmpty) {
+        final listId = groupList[0]['list_id'];
+
+        final response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode({
+            'member_id': listId,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          final res = json.decode(response.body);
+          setState(() {
+            listList = List<Map<String, dynamic>>.from(res);
+          });
+          print('서버 응답: $res');
+        } else {
+          print('서버 오류 : ${response.statusCode}');
+        }
+      } else {
+        print('memberList가 비어 있습니다.');
+      }
+    } catch (e) {
+      print('Post 요청 실패 : $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     grouppostList();
+    memberList();
   }
 
   @override
@@ -76,6 +113,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
           itemCount: groupList.length,
           itemBuilder: (context, index) {
             final groupItem = groupList[index];
+            final listItem = listList[index];
 
             return Container(
               width: 400,
@@ -92,7 +130,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
               child: ListView(
                 children: [
                   Text(
-                    groupItem['title'] ?? 'No Name',
+                    groupItem['title'] ,
                     style: TextStyle(
                       color: Color(0xff22844c),
                       fontFamily: 'Jua',
@@ -100,7 +138,15 @@ class _ListDetailPageState extends State<ListDetailPage> {
                     ),
                     textAlign: TextAlign.start,
                   ),
-
+                  Text(
+                    listItem['title'] ,
+                    style: TextStyle(
+                      color: Color(0xff22844c),
+                      fontFamily: 'Jua',
+                      fontSize: 25,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
                 ],
               ),
             );
